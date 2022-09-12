@@ -35,10 +35,10 @@
 
   Procedure mergeAcumulador(ar: arr; Var nuevo: lstm); // se pasa el vector por valor y la lista merge por referencia
       Var
-          min: info;
-          actual: Integer;
-          totalcant: Integer;
-          prodNuevo: infom;
+          min: info; // dato minimo
+          actual: Integer; // para saber si sigo con el mismo codigo
+          totalcant: Integer; // suma la cantidad de todos los codigos iguales
+          prodNuevo: infom; // dato a cargar en la lista
       Begin
           nuevo := Nil; //se inicializa la lista merge en nil
           minimo(ar, min); //se busca un minimo
