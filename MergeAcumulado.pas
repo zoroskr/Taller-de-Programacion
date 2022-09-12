@@ -20,7 +20,7 @@
           datosMin.cod := 999;
           indiceMin := -1;
           For i := 1 To dimf Do //Recorro todas las posiciones del vector
-              If (todos [i] <> Nil) Then // Si se termino la lista del vector o la lista esta vacia sigo
+              If (todos [i] <> Nil) Then // Si no se termino la lista del vector o la lista no esta vacia sigo
                   If (todos [i]^.dato.cod <= datosMin.Cod) Then//Esta sentencia define el criterio para acumular
                     Begin
                       datosMin := todos [i]^.dato;//Esta reasigna el minimo
