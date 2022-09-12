@@ -1,3 +1,18 @@
+   Procedure agregarAtrasm(Var pri, ult: lstm; valor: infom);
+      Var
+          aux: lstm;
+      Begin
+          new(aux);   aux^.dato := valor;     aux^.sig := Nil;
+          If pri = Nil Then
+            Begin
+              pri := aux;
+              ult := aux;
+            End;
+          ult^.sig := aux;
+          ult := aux;
+      End;
+ 
+ 
  Procedure minimo(Var todos: arr; Var datosMin: info); // se pasa el vector por referencia al igual que el dato
       Var
           indiceMin, i: Integer;
