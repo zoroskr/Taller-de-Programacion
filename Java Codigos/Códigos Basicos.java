@@ -41,7 +41,7 @@ for (i=0; i<3; i++)
    
  public class Libro{     
  /*Declaracion del estado*/
- private String titulo;
+ private /* final */ String titulo; // si agregamos la palabra final declararemos que es una constante y este no podra ser modificado luego de ser inicializado
  private String primerAutor;
  private String editorial;
  private int añoEdicion;
