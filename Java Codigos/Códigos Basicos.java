@@ -50,11 +50,11 @@ for (i=0; i<3; i++)
  
   /*Declaracion de metodos*/
   
- public String getTitulo(){ 
+ public String getTitulo(){ // el "string" despues de public hace referencia al tipo de dato que se retorna
   return titulo;
   } // devuelve el valor del titulo
   
- public String setTitulo(String unTitulo){
+ public String setTitulo(String unTitulo){ // "String unTitulo" es un parametro, para recibir argumentos
   titulo= unTitulo;
   } // permite modificar el valor del titulo
  
@@ -65,8 +65,14 @@ for (i=0; i<3; i++)
   } //devuelve la informacion en un string
  }
  
-
- 
+public class Main {
+    public static void main (String [] args) {
+      String unTitulo = Lector.leerString(); // leemos un string y lo guardamos en "unTitulo"
+      
+      Libro libro1 = new Libro (); // creamos un objeto de tipo libro
+      libro1.setTitulo(unTitulo); // llamamos al metodo "setTitulo" y le enviamos como argumento "unTitulo"
+    }
+}
  
  
   
