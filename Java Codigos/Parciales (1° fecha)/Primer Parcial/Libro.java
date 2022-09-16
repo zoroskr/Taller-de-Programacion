@@ -61,6 +61,7 @@ public abstract class Libro { // se declara una clase abstracta
 
     public abstract double precioFinal();
 
+    // devuelve un string con la informacion del libro
     @Override
     public String toString() {
         return "Libro{" + "titulo=" + titulo + ", precio=" + this.precioFinal() + ", priautor=" + autores[0] + '}';
