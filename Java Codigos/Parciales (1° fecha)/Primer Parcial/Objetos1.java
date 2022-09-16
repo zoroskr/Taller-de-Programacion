@@ -2,21 +2,29 @@ package Ejercicio1;
 
 public class Objetos1 {
 
-    public static void main(String[] args) {
-        LibroDigital l1 = new LibroDigital("pdf", 10, "tituloLibroDigital", 10);
-        LibroFisico l2 = new LibroFisico("dura", "tituloLibroFisico", 10);
+    public static void main(String[] args) { // se crea la super clase 
+        
+        // se crean los objetos
+        LibroDigital l1 = new LibroDigital("pdf", 10, "tituloLibroDigital", 10); 
+        LibroFisico l2 = new LibroFisico("dura", "tituloLibroFisico", 10); 
+        
+        // se crean variables para autores
         String a1 = "a1";
         String a2 = "a2";
         String a3 = "a3";
-
+        
+        // se utiliza el metodo agregar autor en el libro digital pasandole los "a´s" creados
         l1.agregarAutor(a1);
         l1.agregarAutor(a2);
         l1.agregarAutor(a3);
 
+         // se utiliza el metodo agregar autor en el libro fisico pasandole los "a´s" creados
         l2.agregarAutor(a1);
         l2.agregarAutor(a2);
         l2.agregarAutor(a3);
-
+        
+        
+        // se imprimen los libros
         System.out.println(l1.toString());
         System.out.println(l2.toString());
     }
