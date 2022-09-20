@@ -8,7 +8,7 @@ System.out.println("Hola mundo" + año +"!"); // más de un dato
 String nombre = Lector.leerString(); //lee y devuelve el string ingresado antes del enter, si deseamos otro tipo de datos debemos modificar el "leer"
 
 GeneradorAleatorio.iniciar(); // inicia generador aleatorio
-System.out.println(Generador.Aleatorio.generarDouble(10)) // imprime un double entre 0 y 9
+System.out.println(GeneradorAleatorio.generarDouble(10)) // imprime un double entre 0 y 9
   
 int i;
 for (i=1; 1<=10; i++) // la primera i es una inicializacion, la segunda es una condicion y la tercera incrementa en 1 a i cuando el for termina
