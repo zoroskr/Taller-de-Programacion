@@ -1,3 +1,5 @@
+import PaqueteLectura.GeneradorAleatorio; // importa el metodo para generar numeros aleatorios
+
 System.out.print("Hola mundo!"); // un solo dato
 
 int año = 2018;
