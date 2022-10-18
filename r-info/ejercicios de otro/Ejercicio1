@@ -1,0 +1,136 @@
+programa Ejercicio1
+procesos
+  proceso juntarTodasFlores 
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+
+  proceso juntarTodosPapeles
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+
+areas
+  areaf: AreaP(1,1,1,1)
+  areaAzul: AreaPC(3,4,13,24)
+  areaVerde: AreaPC(17,4,27,24)
+
+robots 
+  robot flor
+  variables
+    id,avantes,avdespues,avchoque,ca:numero
+  comenzar
+    RecibirMensaje (id,robotf)
+    ca:=PosCa
+    avantes:=PosAv+3
+    avchoque:=PosAv+4
+    avdespues:=PosAv+5
+    derecha
+    repetir 10
+      juntarTodasFlores
+      si PosAv=avantes
+        BloquearEsquina (avchoque,ca)
+      mover
+      si PosAv=avdespues
+        LiberarEsquina (avchoque,ca)
+    juntarTodasFlores
+    EnviarMensaje(id,robotf)
+  fin
+
+
+  robot papel
+  variables
+    id,caantes,cadespues,cachoque,av:numero
+  comenzar
+    RecibirMensaje (id,robotf)
+    av:=PosAv
+    caantes:=PosCa+1
+    cachoque:=PosCa+2
+    cadespues:=PosCa+3
+    repetir 20
+      juntarTodosPapeles
+      si PosCa=caantes
+        BloquearEsquina (av,cachoque)
+      mover
+      si PosCa=cadespues
+        LiberarEsquina (av,cachoque)
+    juntarTodosPapeles
+    EnviarMensaje(id,robotf)
+  fin
+
+  robot Fiscalizador
+  variables
+    id,ter1,ter2,cant:numero
+  comenzar
+    id:=1
+    EnviarMensaje(id,robot1)
+    EnviarMensaje(id,robot2)
+    id:=id+1
+    EnviarMensaje(id,robot3)
+    EnviarMensaje(id,robot4)
+
+    ter1:=0
+    ter2:=0
+    cant:=4
+
+    mientras (ter1<2) & (ter2<2)
+      RecibirMensaje (id,*)
+      si id=1
+        ter1:= ter1 + 1
+      sino
+        ter2:= ter2 + 1
+      cant:= cant -1
+
+    si ter1 = 2
+      Informar('Gano ',1)
+    sino
+      si ter2 = 2
+        Informar('Gano ',2)
+
+    repetir cant
+      RecibirMensaje (id,*)
+  fin
+
+variables 
+
+  robot1: flor{o tipo apropiado}
+  robot2: flor{o tipo apropiado}
+  robot3: papel{o tipo apropiado}
+  robot4: papel{o tipo apropiado}
+  robotf: Fiscalizador
+comenzar 
+
+  AsignarArea(robot1,areaAzul)
+  AsignarArea(robot2,areaVerde)
+  AsignarArea(robot3,areaAzul)
+  AsignarArea(robot4,areaVerde)
+  AsignarArea(robotf,areaf)
+
+  Iniciar(robot1, 3,6)
+  Iniciar(robot2, 17,6 )
+  Iniciar(robot3, 7,4 )
+  Iniciar(robot4, 21,4 )
+  Iniciar(robotf, 1, 1)
+
+fin
+
+{
+Existen dos equipos de robots, el azul y el verde, de dos robots cada uno. 
+
+En cada equipo, un robot florero recorre un trayecto de 10 esquinas por la misma calle juntando todas las flores que encuentra,
+ y un robot papelero recorre un trayecto de 20 esquinas por la misma avenida juntando los papeles.
+
+● El robot florero del equipo azul comienza su trayecto en la esquina (3,6)
+
+● El robot florero del equipo verde comienza su trayecto en la esquina (17,6)
+
+● El robot papelero del equipo azul comienza su trayecto en la esquina (7,4)
+
+● El robot papelero del equipo verde comienza su trayecto en la esquina (21,4)
+
+Al finalizar el programa, un robot fiscalizador deberá informar qué equipo finalizó primero.
+
+
+}
