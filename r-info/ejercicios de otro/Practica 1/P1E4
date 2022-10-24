@@ -1,0 +1,54 @@
+programa P1E4
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso juntarPapeles
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso recorrerAreasImpares
+  comenzar
+    repetir 25
+      repetir 99
+        juntarFlores
+        mover
+      Pos(PosAv+1, 1) 
+  fin
+  proceso recorrerAreasPares
+  comenzar
+    repetir 25
+      repetir 99
+        juntarPapeles
+        mover
+      Pos(PosAv+1, 1)
+  fin
+areas
+  area1: AreaP(1,1,25,100)
+  area2: AreaP(26,1,50,100)
+  area3: AreaP(51,1,75,100)
+  area4: AreaP(76,1,100,100)
+
+robots
+  robot flores
+  comenzar
+    recorrerAreasImpares
+  fin
+  robot papeles
+  comenzar
+    recorrerAreasPares
+  fin
+variables
+  robot1: flores
+  robot2: papeles
+comenzar
+  AsignarArea(robot1, area1)
+  AsignarArea(robot1, area3)
+  AsignarArea(robot2, area2)
+  AsignarArea(robot2, area4)
+  Iniciar(robot1, 1,1)
+  Iniciar(robot2, 26,1)
+fin

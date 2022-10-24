@@ -1,0 +1,92 @@
+programa Ej1P1
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+
+  proceso dejarFlores (ES totales: numero)
+  comenzar
+    mientras (HayFlorEnLaBolsa)
+      depositarFlor
+      totales := totales + 1
+  fin
+
+
+  proceso esquinaVacia (ES vacia: boolean)
+  comenzar
+    si (HayFlorEnLaEsquina)
+      juntarFlores
+      vacia:= F
+    sino 
+      vacia:= V
+  fin
+  
+  proceso recorrerAv (E vacias: boolean; E totales: numero; E cant: numero)
+  comenzar
+    repetir 99
+      esquinaVacia(vacias)
+      si (vacias = V)
+        totales:= totales + 1
+      mover
+    dejarFlores(cant)
+    Informar(cant)
+    Informar(totales)
+  fin
+
+
+areas
+  ciudad : AreaC(1,1,100,100)
+  
+robots
+  robot tipo1
+  variables 
+    cant: numero
+    vacias: boolean
+    totales: numero
+  comenzar
+    cant:= 0
+    totales:= 0
+    vacias:= F
+    recorrerAv(vacias, totales, cant)
+  fin
+  
+  robot tipo2
+  variables 
+    cant: numero
+    vacias: boolean
+    totales: numero
+  comenzar
+    cant:= 0
+    totales:= 0
+    vacias:= F
+    recorrerAv(vacias, totales, cant)
+  fin
+  
+  robot tipo3
+  variables 
+    cant: numero
+    vacias: boolean
+    totales: numero
+  comenzar
+    cant:= 0
+    totales:= 0
+    vacias:= F
+    recorrerAv(vacias, totales, cant)
+  fin
+
+
+variables 
+  robot1: tipo1
+  robot2: tipo2
+  robot3: tipo3
+  
+comenzar 
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  AsignarArea(robot3,ciudad)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 3, 1)
+  Iniciar(robot3, 5, 1)
+fin
