@@ -1,0 +1,127 @@
+programa P1E3
+procesos
+  proceso juntarPapeles (ES papeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+  proceso juntarFlores (ES flores: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin 
+  proceso juntarTodo(ES papeles: numero; ES flores: numero)
+  comenzar
+    juntarPapeles(papeles)
+    juntarFlores(flores)
+  fin
+  
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot recolector
+  variables
+    avInicial: numero
+    caInicial: numero
+    avenida: numero
+    calle: numero
+    autorizado: numero
+    papeles: numero
+    flores: numero
+    quienSoy: numero
+    total: numero
+  comenzar
+    papeles:= 0
+    flores:= 0
+    avInicial:= PosAv
+    caInicial:= PosCa
+    RecibirMensaje(quienSoy, jefe)
+    RecibirMensaje(autorizado, jefe)
+    si (autorizado = 0)
+      Random(avenida, 25, 75)
+      Random(calle, 25, 75)
+      Pos(avenida, calle)
+      juntarTodo(papeles, flores)
+      Pos(avInicial, caInicial)
+      EnviarMensaje(quienSoy, jefe)
+      EnviarMensaje(total, jefe)
+    si (autorizado = 1)
+      Pos(50, 50)
+  fin
+  
+  robot fiscalizador
+  variables
+    quienEs: numero
+    total: numero
+    juntadoRobot1: numero
+    juntadoRobot2: numero
+    juntadoRobot3: numero
+    juntadoRobot4: numero
+    id: numero
+  comenzar
+    repetir 10      
+      EnviarMensaje(1, robot1)
+      EnviarMensaje(2, robot2)
+      EnviarMensaje(3, robot3)
+      EnviarMensaje(4, robot4)
+      Random(id, 1, 4)
+      si (id = 1)
+        EnviarMensaje(0, robot1)
+      si (id = 2)
+        EnviarMensaje(0, robot2)
+      si (id = 3)
+        EnviarMensaje(0, robot3) 
+      si (id = 4)
+        EnviarMensaje(0, robot4)
+      RecibirMensaje(quienEs, *)
+      RecibirMensaje(total, *)
+      si quienEs = 1
+        juntadoRobot1:= juntadoRobot1 + total
+      si quienEs = 2
+        juntadoRobot2:= juntadoRobot2 + total
+      si quienEs = 3
+        juntadoRobot3:= juntadoRobot3 + total
+      si quienEs = 4
+        juntadoRobot4:= juntadoRobot4 + total
+    si (juntadoRobot1 > juntadoRobot2) & (juntadoRobot1 > juntadoRobot3) & (juntadoRobot1 > juntadoRobot4)
+      EnviarMensaje(1, robot1)
+      EnviarMensaje(0, robot2)
+      EnviarMensaje(0, robot3)
+      EnviarMensaje(0, robot4)
+    si (juntadoRobot2 > juntadoRobot1) & (juntadoRobot2 > juntadoRobot3) & (juntadoRobot2 > juntadoRobot4)
+      EnviarMensaje(1, robot1)
+      EnviarMensaje(0, robot2)
+      EnviarMensaje(0, robot3)
+      EnviarMensaje(0, robot4)
+    si (juntadoRobot3 > juntadoRobot1) & (juntadoRobot3 > juntadoRobot2) & (juntadoRobot3 > juntadoRobot4)
+      EnviarMensaje(1, robot1)
+      EnviarMensaje(0, robot2)
+      EnviarMensaje(0, robot3)
+      EnviarMensaje(0, robot4)
+    si (juntadoRobot4 > juntadoRobot1) & (juntadoRobot4 > juntadoRobot3) & (juntadoRobot4 > juntadoRobot2)
+      EnviarMensaje(1, robot1)
+      EnviarMensaje(0, robot2)
+      EnviarMensaje(0, robot3)
+      EnviarMensaje(0, robot4)
+  fin
+  
+variables
+  robot1: recolector
+  robot2: recolector
+  robot3: recolector
+  robot4: recolector
+  jefe: fiscalizador
+comenzar
+  AsignarArea(robot1, ciudad)
+  AsignarArea(robot2, ciudad)
+  AsignarArea(robot3, ciudad)
+  AsignarArea(robot4, ciudad)
+  AsignarArea(jefe, ciudad)
+  Iniciar(jefe, 1, 1)
+  Iniciar(robot1, 25, 1)
+  Iniciar(robot2, 30, 1)
+  Iniciar(robot3, 35, 1)
+  Iniciar(robot4, 40, 1)
+fin

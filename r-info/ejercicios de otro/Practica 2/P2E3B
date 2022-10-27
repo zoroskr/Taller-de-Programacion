@@ -1,0 +1,89 @@
+programa P1E3
+procesos
+  proceso juntarPapeles(ES papeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin 
+  proceso recorridoAs(ES papeles: numero)
+  comenzar
+    repetir 9
+      juntarPapeles(papeles)
+      mover
+    juntarPapeles(papeles)
+  fin
+  proceso recorridoBs(ES flores: numero)
+  comenzar
+    repetir 9
+      juntarFlores(flores)
+      mover
+    juntarFlores(flores)
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot tipoA1
+  variables
+    papeles: numero
+  comenzar
+    derecha
+    papeles:= 0
+    recorridoAs(papeles)
+    EnviarMensaje(papeles, robotA2)
+  fin
+  robot tipoA2
+  variables
+    papeles: numero
+  comenzar
+    derecha
+    RecibirMensaje(papeles, robotA1)
+    recorridoAs(papeles)
+    Informar(papeles)
+  fin
+  robot tipoB1
+  variables
+    flores: numero
+  comenzar
+    derecha
+    flores:= 0
+    repetir 2
+      recorridoBs(flores)
+      EnviarMensaje(flores, robotB2)
+      Pos(PosAv+11, PosCa)
+      RecibirMensaje(flores, robotB2)     
+  fin
+  robot tipoB2
+  variables
+    flores: numero
+  comenzar
+    derecha
+    repetir 2
+      RecibirMensaje(flores, robotB1)
+      recorridoBs(flores)
+      Informar(flores)
+      Pos(PosAv+11, PosCa)
+      EnviarMensaje(flores, robotB1)
+  fin
+variables
+  robotA1: tipoA1
+  robotA2: tipoA2
+  robotB1: tipoB1
+  robotB2: tipoB2
+comenzar
+  AsignarArea(robotA1, ciudad)
+  AsignarArea(robotA2, ciudad)
+  AsignarArea(robotB1, ciudad)
+  AsignarArea(robotB2, ciudad)
+  Iniciar(robotA1, 1, 1)
+  Iniciar(robotA2, 11, 1)
+  Iniciar(robotB1, 1, 5)
+  Iniciar(robotB2, 11, 5)
+  
+fin

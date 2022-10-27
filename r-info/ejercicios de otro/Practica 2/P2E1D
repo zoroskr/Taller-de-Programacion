@@ -1,0 +1,83 @@
+programa P2E1B
+procesos
+  proceso juntarFlores (ES floresJuntadas: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      floresJuntadas:= floresJuntadas + 1
+  fin
+  proceso recorrerAvenida (ES floresJuntadas: numero)
+  comenzar
+    repetir 9
+      juntarFlores(floresJuntadas)
+      mover
+    juntarFlores(floresJuntadas)
+  fin
+areas
+  areaRobot1: AreaP(1,1,1,10)
+  areaRobot2: AreaP(2,11,2,20)
+  areaRobot3: AreaP(3,21,3,30)
+  areaRobot4: AreaP(4,31,4,40)
+  areaRobot5: AreaP(5,41,5,50)
+  areaRobot6: AreaP(6,51,6,60)
+  areaJefe: AreaP(2,1,2,1)
+robots
+  robot tipoRobot
+  variables
+    floresJuntadasRobot: numero
+    quienSoy: numero
+  comenzar
+    RecibirMensaje(quienSoy, jefe)
+    floresJuntadasRobot:= 0
+    recorrerAvenida(floresJuntadasRobot)
+    EnviarMensaje(quienSoy, jefe)
+    EnviarMensaje(floresJuntadasRobot, jefe)
+  fin
+  robot tipoJefe
+  variables
+    max: numero
+    robotMax: numero
+    floresRobotActual: numero
+    quienSoy: numero
+    robotActual: numero
+  comenzar
+    max:= -1
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    EnviarMensaje(4, robot4)
+    EnviarMensaje(5, robot5)
+    EnviarMensaje(6, robot6)
+    repetir 6
+      RecibirMensaje(robotActual, *)
+      RecibirMensaje(floresRobotActual, *)
+      si (floresRobotActual > max)
+        max:= floresRobotActual
+        robotMax:= robotActual
+    Informar (robotMax)    
+  fin
+variables
+  robot1: tipoRobot
+  robot2: tipoRobot
+  robot3: tipoRobot
+  robot4: tipoRobot
+  robot5: tipoRobot
+  robot6: tipoRobot
+  jefe: tipoJefe
+comenzar
+  AsignarArea(robot1, areaRobot1)
+  AsignarArea(robot2, areaRobot2)
+  AsignarArea(robot3, areaRobot3)
+  AsignarArea(robot4, areaRobot4)
+  AsignarArea(robot5, areaRobot5)
+  AsignarArea(robot6, areaRobot6)
+  AsignarArea(jefe, areaJefe)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 2, 11)
+  Iniciar(robot3, 3, 21)
+  Iniciar(robot4, 4, 31)
+  Iniciar(robot5, 5, 41)
+  Iniciar(robot6, 6, 51)
+  Iniciar(jefe, 2, 1)
+fin
+
