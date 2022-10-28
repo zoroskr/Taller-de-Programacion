@@ -1,0 +1,144 @@
+programa ExamenPractico
+procesos
+  proceso Izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso juntarTodasFlores (ES flor:numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flor:= flor + 1
+  fin
+  proceso juntarTodosPapeles (ES Papel:numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      Papel:= Papel + 1
+  fin
+areas
+  areaT: AreaPC(1,1,9,100)
+
+robots 
+  robot flor
+  variables
+    flor,av1,ca1,av2,ca2:numero
+  comenzar
+    flor:=0
+    av1:=0
+    av2:=0
+    ca1:=0
+    ca2:=0
+    derecha
+    repetir 3
+      repetir 3
+        mover
+      av1:=PosAv+1
+      ca1:=PosCa
+      BloquearEsquina(av1,ca1)
+      mover
+      Izquierda
+      juntarTodasFlores(flor)
+
+      repetir 4
+        av2:=av1
+        ca2:=ca1
+
+        ca1:=ca1+1
+
+        BloquearEsquina(av1,ca1)
+        mover
+        LiberarEsquina(av2,ca2)
+      
+      Izquierda
+      juntarTodasFlores(flor)
+      mover
+      LiberarEsquina(av1,ca1)
+      repetir 3
+        mover
+      derecha
+      juntarTodasFlores(flor)
+      repetir 4
+        mover
+      derecha
+      juntarTodasFlores(flor)
+
+    Informar('flor_',flor)
+  fin
+
+
+  robot papel
+  variables
+    papel,av1,ca1,av2,ca2:numero
+  comenzar
+    papel:=0
+    av1:=0
+    av2:=0
+    ca1:=0
+    ca2:=0
+    Izquierda
+    repetir 3
+      repetir 3
+        mover
+      av1:=PosAv -1
+      ca1:=PosCa
+      BloquearEsquina(av1,ca1)
+      mover
+      derecha
+      juntarTodosPapeles(papel)
+
+      repetir 4
+        av2:=av1
+        ca2:=ca1
+
+        ca1:=ca1+1
+        BloquearEsquina(av1,ca1)
+        mover
+        LiberarEsquina(av2,ca2)
+      
+      derecha
+      juntarTodosPapeles(papel)
+      mover
+      LiberarEsquina(av1,ca1)
+      repetir 3
+        mover
+      Izquierda
+      juntarTodosPapeles(papel)
+      repetir 4
+        mover
+      Izquierda
+      juntarTodosPapeles(papel)
+
+    Informar('papel_',papel)
+  fin
+
+
+
+variables 
+  robot1: flor
+  robot2: papel
+comenzar
+  AsignarArea(robot1,areaT)
+  AsignarArea(robot2,areaT)
+
+
+  Iniciar(robot1, 1,1 )
+  Iniciar(robot2, 9,1 )
+
+
+fin
+
+{Tiempo 32:59:36;Fecha,6/2
+Realice un programa en el cual 2 robots corren una carrera. 
+El recorrido realizado por cada uno es el que se muestra en la siguiente figura. 
+
+Durante el recorrido el robot 1 debe juntar todas las flores que encuentre en los vértices,
+ mientras que el robot 2 debe juntar todos los papeles que encuentre en los vértices.
+
+Al finalizar deben informar la cantidad de elementos recogidos.
+
+El robot 1 debe iniciar su recorrido en la esquina (1,1) y el robot 2 debe iniciar su recorrido en la
+esquina (9,1).
+3- 
+}
