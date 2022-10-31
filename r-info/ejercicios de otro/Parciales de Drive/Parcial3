@@ -1,0 +1,240 @@
+programa ExamenPractico
+procesos
+  proceso juntarTodasFlores (ES flor:numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flor:= flor + 1
+  fin
+
+  proceso juntarTodosPapeles (ES Papel:numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      Papel:= Papel + 1
+  fin
+
+areas
+  areaT: AreaPC(1,5,15,20)
+  area1: AreaP(30,30,30,30)
+  area2: AreaP(31,31,31,31)
+  area3: AreaP(32,32,32,32)
+  area4: AreaP(33,33,33,33)
+  area5: AreaP(34,34,34,34)
+  area6: AreaP(35,35,35,35)
+  areaf: AreaP(1,1,1,1)
+  
+
+robots 
+  robot flor
+  variables
+    id,flor,papel,av1,ca1,av2,orav,av,ca,orca:numero
+  comenzar
+    flor:=0
+    papel:=0
+    av2:=0
+    orav:=PosAv
+    orca:=PosCa
+    RecibirMensaje(id,robotf)
+    RecibirMensaje(av,robotf)
+    RecibirMensaje(ca,robotf)
+
+    
+    ca1:=ca
+    av1:=av
+
+    BloquearEsquina(av1,ca1)
+    Pos(av1,ca1)
+    derecha
+    juntarTodasFlores(flor)
+    juntarTodosPapeles(papel)
+
+
+    repetir 4
+      av2:=av1
+      av1:=av1+1
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av2,ca1)
+      juntarTodasFlores(flor)
+      juntarTodosPapeles(papel)
+    repetir flor
+      depositarFlor
+    repetir papel
+      depositarPapel
+    EnviarMensaje(id,robotf)
+    av:=PosAv
+    ca:=PosCa
+    EnviarMensaje(av,robotf)
+    EnviarMensaje(ca,robotf)
+    Pos(orav,orca)
+    LiberarEsquina(av1,ca1)
+  fin
+
+
+  robot papel
+  variables
+    id,flor,papel,ca1,av1,ca2,av,ca,orav,orca:numero
+  comenzar
+    flor:=0
+    papel:=0
+    ca2:=0
+    orav:=PosAv
+    orca:=PosCa
+    RecibirMensaje(id,robotf)
+    RecibirMensaje(av,robotf)
+    RecibirMensaje(ca,robotf)
+
+    ca1:=ca
+    av1:=av
+
+    BloquearEsquina(av1,ca1)
+    Pos(av1,ca1)
+    juntarTodasFlores(flor)
+    juntarTodosPapeles(papel)
+
+
+    repetir 4
+      ca2:=ca1
+      ca1:=ca1+1
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av1,ca2)
+      ca2:=PosAv
+      juntarTodasFlores(flor)
+      juntarTodosPapeles(papel)
+    repetir flor
+      depositarFlor
+    repetir papel
+      depositarPapel
+    EnviarMensaje(id,robotf)
+    av:=PosAv
+    ca:=PosCa
+    EnviarMensaje(av,robotf)
+    EnviarMensaje(ca,robotf)
+    Pos(orav,orca)
+    LiberarEsquina(av1,ca1)
+
+  fin
+
+  robot Fiscalizador
+  variables 
+    id,cant,ter1,ter2,casig,avsig,avini,caini:numero
+  comenzar 
+    id:=1
+    EnviarMensaje(id,robot1)
+    id:=id+1
+    EnviarMensaje(id,robot2)
+    id:=id+1
+    EnviarMensaje(id,robot3)
+    id:=id+1
+    EnviarMensaje(id,robot4)
+    id:=id+1
+    EnviarMensaje(id,robot5)
+    id:=id+1
+    EnviarMensaje(id,robot6)
+
+    Random (avini,1,15)
+    Random (caini,5,20)
+
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(caini,robot1)
+
+    EnviarMensaje(avini,robot4)
+    EnviarMensaje(5,robot4)
+
+{//?Que hay con este, se pueden hacer las postas sin bloquear todas las calles?}
+    ter1:=0
+    ter2:=0
+    cant:=6
+    mientras (ter1<3) & (ter2<3)
+      RecibirMensaje (id,*)
+      si id = 1
+        RecibirMensaje (avsig,robot1)
+        RecibirMensaje (casig,robot1)
+        EnviarMensaje(avsig,robot2)
+        EnviarMensaje(casig,robot2)
+        ter1:= ter1 + 1
+      sino
+        si id = 2
+          RecibirMensaje (avsig,robot2)
+          RecibirMensaje (casig,robot2)
+          EnviarMensaje(avsig,robot3)
+          EnviarMensaje(casig,robot3)
+          ter1:= ter1 + 1
+        sino
+          si id = 3
+            RecibirMensaje (avsig,robot3)
+            RecibirMensaje (casig,robot3)
+            ter1:= ter1 + 1
+          sino
+            si id = 4
+              RecibirMensaje (avsig,robot4)
+              RecibirMensaje (casig,robot4)
+              EnviarMensaje(avsig,robot5)
+              EnviarMensaje(casig,robot5)
+              ter2:= ter2 + 1
+            sino
+              si id = 5
+                RecibirMensaje (avsig,robot5)
+                RecibirMensaje (casig,robot5)
+                EnviarMensaje(avsig,robot6)
+                EnviarMensaje(casig,robot6)
+                ter2:= ter2 + 1
+              sino
+                si id = 6
+                  RecibirMensaje (avsig,robot6)
+                  RecibirMensaje (casig,robot6)
+                  ter2:= ter2 + 1
+      cant:= cant -1
+
+    si ter1 = 3
+      Informar('Gano ',1)
+    sino
+      si ter2 = 3
+        Informar('Gano ',2)
+
+    repetir cant
+      RecibirMensaje (id,*)
+
+  fin
+variables 
+  robot1: flor
+  robot2: flor
+  robot3: flor
+  robot4: papel
+  robot5: papel
+  robot6: papel
+  robotf: Fiscalizador
+comenzar
+
+  AsignarArea(robot1,areaT)
+  AsignarArea(robot2,areaT)
+  AsignarArea(robot3,areaT)
+  AsignarArea(robot4,areaT)
+  AsignarArea(robot5,areaT)
+  AsignarArea(robot6,areaT)
+
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+
+  AsignarArea(robot4,area4)
+  AsignarArea(robot5,area5)
+  AsignarArea(robot6,area6)
+
+  AsignarArea(robotf,areaf)
+
+  Iniciar(robot1, 30,30 )
+  Iniciar(robot2, 31,31 )
+  Iniciar(robot3, 32,32 )
+
+  Iniciar(robot4, 33,33 )
+  Iniciar(robot5, 34,34 )
+  Iniciar(robot6, 35,35 )
+
+  Iniciar(robotf, 1, 1)
+
+fin{Tiempo,1:33:38.72;Fecha,29/1}

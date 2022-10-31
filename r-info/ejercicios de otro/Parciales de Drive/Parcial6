@@ -1,0 +1,156 @@
+programa ExamenPractico
+
+
+areas
+  areaAzul1: AreaP(5,5,5,16)
+  areaAzul2: AreaP(6,4,9,4)
+  areaAzul3: AreaPC(5,4,5,4)
+
+  areaVerde1: AreaP(11,5,11,16)
+  areaVerde2: AreaP(12,4,15,4)
+  areaVerde3: AreaPC(11,4,11,4)
+
+  area1: AreaP(50,50,50,50)
+  area2: AreaP(51,51,51,51)
+  area3: AreaP(52,52,52,52)
+  area4: AreaP(53,53,53,53)
+
+  areaj: AreaPC(15,15,15,15)
+  areaf: AreaP(1,1,1,1)
+
+robots 
+
+  robot flor
+  variables
+    id,avr,car:numero
+  comenzar
+    RecibirMensaje (id,robotf)
+    RecibirMensaje (avr,robotf)
+    RecibirMensaje (car,robotf)
+    derecha
+    BloquearEsquina(15,15)
+    Pos(15,15)
+    tomarFlor
+    BloquearEsquina(avr,car)
+    Pos(avr,car)
+    LiberarEsquina(15,15)
+    depositarFlor
+    mover
+    LiberarEsquina(avr,car)
+    avr:=avr+1
+    repetir 3
+      BloquearEsquina(15,15)
+      Pos(15,15)
+      tomarFlor
+      Pos(avr,car)
+      LiberarEsquina(15,15)
+      depositarFlor
+      mover
+      avr:=avr+1
+    EnviarMensaje(id,robotf)
+  fin
+
+  robot papel
+  variables
+    id,avr,car:numero
+  comenzar
+    RecibirMensaje (id,robotf)
+    RecibirMensaje (avr,robotf)
+    RecibirMensaje (car,robotf)
+    
+    BloquearEsquina(15,15)
+    Pos(15,15)
+    tomarPapel
+    BloquearEsquina(avr,car)
+    Pos(avr,car)
+    LiberarEsquina(15,15)
+    depositarPapel
+    mover
+    LiberarEsquina(avr,car)
+    car:=car+1
+    repetir 11
+      BloquearEsquina(15,15)
+      Pos(15,15)
+      tomarPapel
+      Pos(avr,car)
+      LiberarEsquina(15,15)
+      depositarPapel
+      mover
+      car:=car+1
+    EnviarMensaje(id,robotf)
+  fin
+
+
+  robot Fiscalizador
+  variables
+    id,ter1,ter2,cant:numero
+  comenzar
+    id:=1
+    EnviarMensaje(id,robot1)
+    EnviarMensaje(5,robot1)
+    EnviarMensaje(4,robot1)
+
+    EnviarMensaje(id,robot2)
+    EnviarMensaje(5,robot2)
+    EnviarMensaje(4,robot2)
+
+    id:=id+1
+    
+    EnviarMensaje(id,robot3)
+    EnviarMensaje(11,robot3)
+    EnviarMensaje(4,robot3)
+
+    EnviarMensaje(id,robot4)
+    EnviarMensaje(11,robot4)
+    EnviarMensaje(4,robot4)
+
+    repetir 4
+      RecibirMensaje (id,*)
+
+    si id = 1
+      Informar('Gano ',2)
+    sino
+      Informar('Gano ',1)
+  fin
+
+variables 
+  robot1: flor
+  robot2: papel
+  robot3: flor
+  robot4: papel
+  robotf: Fiscalizador
+comenzar
+
+  AsignarArea(robot3,areaVerde1)
+  AsignarArea(robot4,areaVerde1)
+  AsignarArea(robot3,areaVerde2)
+  AsignarArea(robot4,areaVerde2)
+  AsignarArea(robot3,areaVerde3)
+  AsignarArea(robot4,areaVerde3)
+
+  AsignarArea(robot1,areaAzul1)
+  AsignarArea(robot2,areaAzul1)
+  AsignarArea(robot1,areaAzul2)
+  AsignarArea(robot2,areaAzul2)
+  AsignarArea(robot1,areaAzul3)
+  AsignarArea(robot2,areaAzul3)
+
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+  AsignarArea(robot4,area4)
+
+  AsignarArea(robot1,areaj)
+  AsignarArea(robot2,areaj)
+  AsignarArea(robot3,areaj)
+  AsignarArea(robot4,areaj)
+
+  AsignarArea(robotf,areaf)
+
+  Iniciar(robot1, 50,50)
+  Iniciar(robot2, 51,51)
+  Iniciar(robot3, 52,52)
+  Iniciar(robot4, 53,53)
+  Iniciar(robotf, 1, 1)
+
+fin{como evitar usar el id para iniciar posiciones}{03 - ParcialConcurrente28nov2018}{tiempo,37:28.00;Fecha,27/1}

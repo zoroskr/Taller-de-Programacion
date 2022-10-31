@@ -1,0 +1,126 @@
+programa ExamenPractico
+procesos
+  proceso juntarTodosPapeles (ES Papel:numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      Papel:= Papel + 1
+  fin
+
+areas
+  areaf: AreaP(25,1,25,1)
+
+  areaT1: AreaP(1,1,7,40)
+  areaT2: AreaP(8,1,14,40)
+  areaT3: AreaP(15,1,21,40)
+
+  areaD: AreaPC(30,30,30,30)
+
+
+robots 
+  robot papel
+  variables
+    id,papel,cantpa,avr,canttotal,orav,orca:numero
+  comenzar
+    canttotal:=0
+    papel:=0
+    orav:=PosAv
+    orca:=PosCa
+    RecibirMensaje (id,robotf)
+    RecibirMensaje (avr,robotf)
+    Pos(avr,PosCa)
+    repetir 5
+      Random(cantpa,1,10)
+      canttotal:=canttotal+cantpa
+      repetir cantpa
+        juntarTodosPapeles(papel)
+        mover
+      juntarTodosPapeles(papel)
+    EnviarMensaje(id,robotf)
+    EnviarMensaje(canttotal,robotf)
+    repetir papel
+      BloquearEsquina(30,30)
+      Pos(30,30)
+      
+      depositarPapel
+      Pos(orav,orca)
+      LiberarEsquina(30,30)
+  fin
+
+  robot Fiscalizador
+  variables
+    id,avr,cant,max,maxid:numero
+  comenzar
+    id:=1
+    EnviarMensaje(id,robot1)
+    id:=id+1
+    EnviarMensaje(id,robot2)
+    id:=id+1
+    EnviarMensaje(id,robot3)
+
+    Random(avr,1,7)
+    EnviarMensaje(avr,robot1)
+    Random(avr,8,14)
+    EnviarMensaje(avr,robot2)
+    Random(avr,15,21)
+    EnviarMensaje(avr,robot3)
+  
+    max:=-1
+    maxid:=-1
+    cant:=0
+
+    repetir 3
+      RecibirMensaje(id,*)
+      si id = 1
+        RecibirMensaje (cant,robot1)
+      sino
+        si id = 2
+          RecibirMensaje (cant,robot2)
+        sino
+          si id = 3
+            RecibirMensaje (cant,robot3)
+
+      si cant>max 
+        max:=cant
+        maxid:=id
+
+    Informar('maxid',maxid)
+  fin
+
+variables 
+  robot1: papel
+  robot2: papel
+  robot3: papel
+  robotf: Fiscalizador
+comenzar
+
+  AsignarArea(robot1,areaT1)
+  AsignarArea(robot2,areaT2)
+  AsignarArea(robot3,areaT3)
+
+  AsignarArea(robot1,areaD)
+  AsignarArea(robot2,areaD)
+  AsignarArea(robot3,areaD)
+
+  AsignarArea(robotf,areaf)
+
+  Iniciar(robot1, 1,1 )
+  Iniciar(robot2, 8,1 )
+  Iniciar(robot3, 15,1 )
+  Iniciar(robotf, 25,1 )
+
+fin
+{Tiempo,26:18.07;Fecha,11/2
+Tres robots corren una carrera, en la cual tienen 5 intentos para avanzar una determinada
+cantidad de pasos. En cada intento los robots podrán dar entre 1 y 10 pasos, y deberán juntar
+todos los papeles que encuentren en cada esquina de su camino. Un robot fiscalizador es el
+encargado de indicarle a cada robot la esquina al azar desde donde deberán comenzar la carrera,
+dentro del cuadrante comprendido entre las esquinas (1,1) y (21, 40):
+• El robot jugador 1 puede tener que empezar su recorrido en una avenida entre 1 y 7.
+• El robot jugador 2 puede tener que empezar su recorrido en una avenida entre 8 y 14.
+• El robot jugador 3 puede tener que empezar su recorrido en una avenida entre 15 y
+21.
+Al finalizar la carrera, los robots jugadores deben depositar en la esquina (1,30) todos los papeles
+que juntaron, y el robot fiscalizador debe informar qué robot dio más pasos. Los robots jugadores
+inician en las esquinas (1,1), (8,1) y (15,1), y el robot fiscalizador en la esquina (25,1).
+}

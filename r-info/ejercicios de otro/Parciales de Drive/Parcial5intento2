@@ -1,0 +1,110 @@
+programa ExamenPractico
+procesos
+  proceso juntarTodasFlores 
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+
+
+areas
+  areaf: AreaP(21,21,21,21)
+  area1: AreaP(10,1,10,1)
+  area2: AreaP(12,1,12,1)
+  area3: AreaP(14,1,14,1)
+  areaT: AreaPC(5,5,20,20)
+
+robots 
+
+  robot flor
+  variables
+    OrAv,OrCa,saltoav,saltoca,flor,cantvacias,id:numero
+  comenzar
+    flor:=0
+    cantvacias:=0
+    OrAv:=PosAv
+    OrCa:=PosCa
+    RecibirMensaje(id,robotf)
+    juntarTodasFlores
+    repetir 4
+      Random (saltoav,10,15)
+      Random (saltoca,10,15)
+
+      BloquearEsquina(saltoav,saltoca)
+      Pos(saltoav,saltoca)
+      si ~(HayFlorEnLaEsquina | HayPapelEnLaEsquina)
+        si HayFlorEnLaBolsa
+          depositarFlor
+          flor:=flor+1
+        cantvacias:=cantvacias+1
+      Pos(OrAv,OrCa)
+      LiberarEsquina(saltoav,saltoca)
+    EnviarMensaje(id,robotf)
+    EnviarMensaje(cantvacias,robotf)
+    EnviarMensaje(flor,robotf)
+  fin
+
+
+  robot Fiscalizador
+  variables
+    id,cant,cantf,flortot,min,minid:numero
+  comenzar
+    id:=1
+    EnviarMensaje(id,robot1)
+    id:=id+1
+    EnviarMensaje(id,robot2)
+    id:=id+1
+    EnviarMensaje(id,robot3)
+
+    min:=999
+    minid:=-1
+    flortot:=0
+    cantf:=0
+    cant:=0
+    repetir 3
+      RecibirMensaje(id,*)
+      si id = 1
+        RecibirMensaje (cant,robot1)
+        RecibirMensaje (cantf,robot1)
+      sino
+        si id = 2
+          RecibirMensaje (cant,robot2)
+          RecibirMensaje (cantf,robot2)
+        sino
+          si id = 3
+            RecibirMensaje (cant,robot3)
+            RecibirMensaje (cantf,robot3)
+
+      si cant<min 
+        min:=cant
+        minid:=id
+
+      flortot:=flortot+cantf
+
+    Informar('Gano_',minid)
+    Informar('cantidad_de_flores_depositadas_',flortot)
+  fin
+
+variables 
+  robot1: flor
+  robot2: flor
+  robot3: flor
+  robotf: Fiscalizador
+comenzar
+
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+
+  AsignarArea(robot1,areaT)
+  AsignarArea(robot2,areaT)
+  AsignarArea(robot3,areaT)
+
+  AsignarArea(robotf,areaf)
+
+  Iniciar(robot1, 10,1 )
+  Iniciar(robot2, 12,1 )
+  Iniciar(robot3, 14,1 )
+  Iniciar(robotf, 21, 21)
+
+fin{Tiempo,19:55.28;Fecha,3/2}

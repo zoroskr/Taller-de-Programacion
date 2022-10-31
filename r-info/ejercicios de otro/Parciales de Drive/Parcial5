@@ -1,0 +1,114 @@
+programa ExamenPractico
+procesos
+  proceso juntarTodasFlores
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+
+areas
+  areaT: AreaPC(5,5,20,20)
+  area1: AreaP(10,1,10,1)
+  area2: AreaP(12,1,12,1)
+  area3: AreaP(14,1,14,1)
+  areaf: AreaP(21,21,21,21)
+
+robots 
+  robot flor
+  variables
+    id,cantvacias,flor,saltoav,saltoca,Orav,Orca:numero
+  comenzar
+    RecibirMensaje (id,robotf)
+    juntarTodasFlores
+    cantvacias:=0
+    flor:=0
+    saltoav:=0
+    saltoca:=0
+    Orav:=PosAv
+    Orca:=PosCa
+
+    repetir 4
+      Random(saltoav,5,20)
+      Random(saltoca,5,20)
+
+      BloquearEsquina(saltoav,saltoca)
+      Pos(saltoav,saltoca)
+      
+      si (~(HayFlorEnLaEsquina | HayPapelEnLaEsquina))
+        si HayFlorEnLaBolsa
+          depositarFlor
+          flor:=flor+1
+        cantvacias:=cantvacias+1
+
+      Pos(Orav,Orca)
+      LiberarEsquina(saltoav,saltoca)
+    EnviarMensaje(id,robotf)
+    EnviarMensaje(cantvacias,robotf)
+    EnviarMensaje(flor,robotf)
+  fin
+
+  robot Fiscalizador
+  variables
+    id,cantflo,auxflo,cantesq,min,minid:numero
+  comenzar
+
+    id:=1
+    EnviarMensaje(id,robot1)
+    id:=id+1
+    EnviarMensaje(id,robot2)
+    id:=id+1
+    EnviarMensaje(id,robot3)
+
+    min:=999
+    minid:=-1
+    cantflo:=0
+    auxflo:=0
+
+    repetir 3
+      RecibirMensaje(id,*)
+      si id = 1
+        RecibirMensaje (cantesq,robot1)
+        RecibirMensaje (auxflo,robot1)
+      sino
+        si id = 2
+          RecibirMensaje (cantesq,robot2)
+          RecibirMensaje (auxflo,robot2)
+        sino
+          si id = 3
+            RecibirMensaje (cantesq,robot3)
+            RecibirMensaje (auxflo,robot3)
+
+      cantflo:=auxflo+cantflo
+
+      si cantesq<min 
+        min:=cantesq
+        minid:=id
+    Informar('minimasvacias',minid)
+    
+    Informar('cantflo',cantflo)
+  fin
+
+variables 
+  robot1: flor
+  robot2: flor
+  robot3: flor
+  robotf: Fiscalizador
+comenzar
+
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+
+  AsignarArea(robot1,areaT)
+  AsignarArea(robot2,areaT)
+  AsignarArea(robot3,areaT)
+
+  AsignarArea(robotf,areaf)
+
+  Iniciar(robot1, 10,1 )
+  Iniciar(robot2, 12,1 )
+  Iniciar(robot3, 14,1 )
+  Iniciar(robotf, 21, 21)
+
+fin
+{05 - ParcialConcurrente28nov2018}{Tiempo,32:23.97;Fecha,30/1}

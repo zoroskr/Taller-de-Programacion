@@ -1,0 +1,306 @@
+programa ExamenPractico
+procesos
+  proceso juntarTodasFlores (ES flor:numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flor:= flor + 1
+  fin
+
+  proceso juntarTodosPapeles (ES Papel:numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      Papel:= Papel + 1
+  fin
+
+areas
+  areaf: AreaP(1,1,1,1)
+  areaAzul: AreaPC(3,3,13,13)
+  areaVerde: AreaPC(16,3,26,13)
+
+robots 
+  robot flor
+  variables
+    
+    id,flor,av1,ca1,av2,ca2:numero
+    conf:boolean
+  comenzar
+    conf:=F
+    flor:=0
+    RecibirMensaje (id,robotf)
+
+    av1:=PosAv
+    ca1:=PosCa+1
+    BloquearEsquina(av1,ca1)
+    mover
+    juntarTodasFlores(flor)
+
+    repetir 9
+      av2:=av1
+      ca2:=ca1
+
+      av1:=PosAv
+      ca1:=PosCa+1
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av2,ca2)
+      juntarTodasFlores(flor)
+    derecha
+    av2:=av1
+    ca2:=ca1
+
+
+    av1:=PosAv+1
+    ca1:=PosCa
+    BloquearEsquina(av1,ca1)
+    mover
+    LiberarEsquina(av2,ca2)
+    juntarTodasFlores(flor)
+    repetir 9
+      av2:=av1
+      ca2:=ca1
+
+      av1:=PosAv+1
+      ca1:=PosCa
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av2,ca2)
+      juntarTodasFlores(flor)
+
+    derecha
+    av2:=av1
+    ca2:=ca1
+
+
+    av1:=PosAv
+    ca1:=PosCa -1
+    BloquearEsquina(av1,ca1)
+    mover
+    LiberarEsquina(av2,ca2)
+    juntarTodasFlores(flor)
+    repetir 9
+      av2:=av1
+      ca2:=ca1
+
+      av1:=PosAv
+      ca1:=PosCa -1
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av2,ca2)
+      juntarTodasFlores(flor)
+    derecha
+    av2:=av1
+    ca2:=ca1
+
+
+    av1:=PosAv -1
+    ca1:=PosCa
+    BloquearEsquina(av1,ca1)
+    mover
+    LiberarEsquina(av2,ca2)
+    juntarTodasFlores(flor)
+    repetir 9
+      av2:=av1
+      ca2:=ca1
+
+      av1:=PosAv -1
+      ca1:=PosCa
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av2,ca2)
+      juntarTodasFlores(flor)
+
+    LiberarEsquina(av1,ca1)
+    EnviarMensaje(id,robotf)
+    EnviarMensaje(flor,robotf)
+
+  fin
+
+
+  robot papel
+  variables
+    
+    id,papel,av1,ca1,av2,ca2:numero
+    conf:boolean
+  comenzar
+    conf:=F
+    papel:=0
+    RecibirMensaje (id,robotf)
+
+    repetir 2
+      derecha
+    {mover
+    derecha
+    mover}
+
+    av1:=PosAv
+    ca1:=PosCa -1
+    BloquearEsquina(av1,ca1)
+    mover
+    juntarTodosPapeles(papel)
+    repetir 9
+      av2:=av1
+      ca2:=ca1
+
+      av1:=PosAv
+      ca1:=PosCa -1
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av2,ca2)
+      juntarTodosPapeles(papel)
+    derecha
+    av2:=av1
+    ca2:=ca1
+
+    av1:=PosAv -1
+    ca1:=PosCa
+    BloquearEsquina(av1,ca1)
+    mover
+    LiberarEsquina(av2,ca2)
+    juntarTodosPapeles(papel)
+    repetir 9
+      av2:=av1
+      ca2:=ca1
+
+      av1:=PosAv -1
+      ca1:=PosCa
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av2,ca2)
+      juntarTodosPapeles(papel)
+    derecha
+    av2:=av1
+    ca2:=ca1
+
+
+    av1:=PosAv
+    ca1:=PosCa+1
+    BloquearEsquina(av1,ca1)
+    mover
+    LiberarEsquina(av2,ca2)
+    juntarTodosPapeles(papel)
+    repetir 9
+      av2:=av1
+      ca2:=ca1
+
+      av1:=PosAv
+      ca1:=PosCa+1
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av2,ca2)
+      juntarTodosPapeles(papel)
+    derecha
+    av2:=av1
+    ca2:=ca1
+
+    av1:=PosAv+1
+    ca1:=PosCa
+    BloquearEsquina(av1,ca1)
+    mover
+    LiberarEsquina(av2,ca2)
+    juntarTodosPapeles(papel)
+    repetir 9
+      av2:=av1
+      ca2:=ca1
+
+      av1:=PosAv+1
+      ca1:=PosCa
+
+      BloquearEsquina(av1,ca1)
+      mover
+      LiberarEsquina(av2,ca2)
+      juntarTodosPapeles(papel)
+
+
+    EnviarMensaje(id,robotf)
+    EnviarMensaje(papel,robotf)
+  fin
+
+  robot Fiscalizador
+  variables
+    id,tot,aux:numero
+  comenzar
+    id:=1
+    EnviarMensaje(id,robot1)
+    id:=id+1
+    EnviarMensaje(id,robot2)
+    id:=id+1
+    EnviarMensaje(id,robot3)
+    id:=id+1
+    EnviarMensaje(id,robot4)
+
+    aux:=0
+    tot:=0
+
+    repetir 4
+      RecibirMensaje(id,*)
+      si id = 1
+        RecibirMensaje (aux,robot1)
+      sino
+        si id = 2
+          RecibirMensaje (aux,robot2)
+        sino
+          si id = 3
+            RecibirMensaje (aux,robot3)
+          sino
+            si id = 4
+              RecibirMensaje (aux,robot4)
+      tot:=aux+tot
+
+    si id = 1
+      Informar('Gano ',2)
+    sino
+      Informar('Gano ',1)
+    Informar('total_juntado ',tot)
+
+  fin
+
+variables 
+  robot1: flor{o tipo apropiado}
+  robot2: flor{o tipo apropiado}
+  robot3: papel{o tipo apropiado}
+  robot4: papel{o tipo apropiado}
+  robotf: Fiscalizador
+comenzar 
+  AsignarArea(robot1,areaAzul)
+  AsignarArea(robot2,areaVerde)
+  AsignarArea(robot3,areaAzul)
+  AsignarArea(robot4,areaVerde)
+  AsignarArea(robotf,areaf)
+
+  Iniciar(robot1, 3,3)
+  Iniciar(robot2, 16,3)
+  Iniciar(robot3, 13,13)
+  Iniciar(robot4, 26,13)
+  Iniciar(robotf, 1, 1)
+fin
+
+
+
+
+
+
+{
+Existen dos equipos, Papeleros y Floreros, de dos robots cada uno.
+
+ El equipo Papeleros sólo junta papeles, y el equipo Floreros sólo junta flores.
+
+El juego consiste en realizar dos cuadrados, y cada cuadrado es realizado por un papelero y un florero de cada equipo, partiendo desde los vértices opuestos:
+
+• El primer cuadrado comprende el área entre las esquinas (3,3) y (13,13) . El robot florero comienza en la esquina (3,3), y el robot papelero en la (13,13)
+
+• El segundo cuadrado comprende el área entre las esquinas (16,3) y (26,13). El robot florero comienza en la esquina (16,3) y el papelero en la (26,13)
+
+Al finalizar el juego, un robot fiscalizador deberá informar qué equipo finalizó primero, y la cantidad total de objetos (flores + papeles) juntados entre los dos equipos.
+
+ El robot fiscalizador se ubica en la esquina (14,6).
+
+}
