@@ -1,0 +1,83 @@
+programa P2E5
+areas
+  areaRecojo: AreaP(11,11,11,11)
+  areaRobot1: AreaP(4,1,4,20)
+  areaRobot2: AreaP(6,1,6,20)
+  areaRobot3: AreaP(8,1,8,20)
+  areaRobot4: AreaP(10,1,10,20)
+  areaJefe: AreaP(1,1,1,1)
+robots
+  robot general
+  variables
+    continuar: boolean
+    caActual, id, avInicial: numero
+  comenzar
+    continuar:= V
+    caActual:= PosCa
+    avInicial:= PosAv
+    RecibirMensaje(id, jefe)
+    mientras (continuar = V)
+      BloquearEsquina(11,11)
+      Pos(11,11)
+      si ((HayPapelEnLaEsquina) & (caActual < 20))
+        tomarPapel
+        Pos(avInicial, caActual)
+        caActual:= caActual + 1
+        LiberarEsquina(11,11)        
+        depositarPapel
+        mover
+        caActual:= PosCa
+      sino
+        continuar:= F
+        EnviarMensaje(id, jefe)
+        EnviarMensaje(caActual, jefe)
+        Pos(avInicial, caActual)
+        LiberarEsquina(11,11)
+  fin
+  robot tipoJefe
+  variables
+    id, max, idMax, total: numero
+  comenzar
+    max:= -1
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    EnviarMensaje(4, robot4)
+    repetir 4
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(total, robot1)
+      si (id = 2)
+        RecibirMensaje(total, robot2)
+      si (id = 3)
+        RecibirMensaje(total, robot3)
+      si (id = 4)
+        RecibirMensaje(total, robot4)   
+      si(total > max)
+        max:= total
+        idMax:= id     
+    Informar(idMax)
+  fin
+  
+variables
+  robot1: general
+  robot2: general
+  robot3: general
+  robot4: general
+  jefe: tipoJefe
+comenzar
+  AsignarArea(robot1, areaRobot1)
+  AsignarArea(robot2, areaRobot2)
+  AsignarArea(robot3, areaRobot3)
+  AsignarArea(robot4, areaRobot4)
+  AsignarArea(jefe, areaJefe)
+  AsignarArea(robot1, areaRecojo)
+  AsignarArea(robot2, areaRecojo)
+  AsignarArea(robot3, areaRecojo)
+  AsignarArea(robot4, areaRecojo)
+  Iniciar(robot1, 4, 1)
+  Iniciar(robot2, 6, 1)
+  Iniciar(robot3, 8, 1)
+  Iniciar(robot4, 10, 1)
+  Iniciar(jefe, 1, 1)
+fin

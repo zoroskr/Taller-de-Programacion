@@ -1,0 +1,78 @@
+programa P3E3
+areas
+  tomarFlores: AreaP(10,10,10,10)
+  depositarFlores: AreaP(11,11,11,11)
+  inicial: AreaC(1,1,9,12)
+robots
+  robot florero
+  variables
+    flores, avInicial, caInicial, id: numero
+    continuar: boolean
+  comenzar
+    avInicial:= PosAv
+    caInicial:= PosCa
+    flores:= 0
+    continuar:= V
+    RecibirMensaje(id, jefe)
+    mientras (continuar = V)
+      BloquearEsquina(10, 10)
+      Pos(10, 10)
+      si (HayFlorEnLaEsquina)
+        tomarFlor
+        flores:= flores + 1
+      sino
+        continuar:= F
+      BloquearEsquina(11,11)
+      Pos(11, 11)
+      LiberarEsquina(10,10)
+      si (HayFlorEnLaBolsa)
+        depositarFlor
+      Pos(avInicial, caInicial)
+      LiberarEsquina(11,11)
+    EnviarMensaje(id, jefe)
+  fin
+
+  robot tipoJefe
+  variables
+    caRandom, avRandom, id, total, max, idMax, posFinalizo: numero
+  comenzar
+    max:= -1
+    posFinalizo:= 1
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    EnviarMensaje(4, robot4)
+    repetir 4
+      RecibirMensaje(id, *)  
+    Informar(id)
+    Pos(11,11)
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+variables
+  robot1: florero
+  robot2: florero
+  robot3: florero
+  robot4: florero
+  jefe: tipoJefe
+comenzar
+  AsignarArea(robot1, tomarFlores)
+  AsignarArea(robot2, tomarFlores)
+  AsignarArea(robot3, tomarFlores)
+  AsignarArea(robot4, tomarFlores)
+  AsignarArea(robot1, depositarFlores)
+  AsignarArea(robot2, depositarFlores)
+  AsignarArea(robot3, depositarFlores)
+  AsignarArea(robot4, depositarFlores)
+  AsignarArea(jefe, inicial)
+  AsignarArea(jefe, depositarFlores)
+  AsignarArea(robot1, inicial)
+  AsignarArea(robot2, inicial)
+  AsignarArea(robot3, inicial)
+  AsignarArea(robot4, inicial)
+  Iniciar(jefe, 1, 1)
+  Iniciar(robot1, 9, 9)
+  Iniciar(robot2, 9, 10)
+  Iniciar(robot3, 9, 11)
+  Iniciar(robot4, 9, 12)
+fin
