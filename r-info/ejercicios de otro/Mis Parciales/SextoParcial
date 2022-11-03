@@ -1,0 +1,94 @@
+programa SextoParcial
+procesos
+  proceso juntarTodo(ES papeles: numero; ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+areas
+  areaComun: AreaPC(45, 48, 62, 69)
+  areaR1: AreaP(10, 10, 10, 10)
+  areaR2: AreaP(11, 10, 11, 10)
+  areaR3: AreaP(12, 10, 12, 10)
+  areaJefe: AreaP(1,1,1,1)
+robots
+  robot recolector
+  variables
+    papeles, flores, avInicial, caInicial, id, avRandom, caRandom: numero
+  comenzar
+    papeles:= 0
+    flores:= 0
+    avInicial:= PosAv
+    caInicial:= PosCa
+    RecibirMensaje(id, jefe)
+    repetir 5
+      Random(avRandom, 45, 62)
+      Random(caRandom, 48, 69)
+      BloquearEsquina(avRandom, caRandom)
+      Pos(avRandom, caRandom)
+      juntarTodo(papeles, flores)
+      EnviarMensaje(id, jefe)
+      EnviarMensaje(papeles, jefe)
+      EnviarMensaje(flores, jefe)
+      Pos(avInicial, caInicial)
+  fin
+  robot jefe
+  variables
+    flores, papeles, totalR1, totalR2, totalR3, id, max, idMax: numero
+  comenzar
+    totalR1:= 0
+    totalR2:= 0
+    totalR3:= 0
+    max:= -1
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    repetir 15
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(papeles, robot1)
+        RecibirMensaje(flores, robot1)
+        totalR1:= totalR1 + papeles + flores
+        si (totalR1 > max)
+          max:= totalR1
+          idMax:= 1
+      sino
+        si (id = 2)
+          RecibirMensaje(papeles, robot2)
+          RecibirMensaje(flores, robot2)
+          totalR2:= totalR2 + papeles + flores
+          si (totalR2 > max)
+            max:= totalR2
+            idMax:= 2
+        sino
+          si (id = 3)
+            RecibirMensaje(papeles, robot3)
+            RecibirMensaje(flores, robot3)
+            totalR3:= totalR3 + papeles + flores
+            si (totalR3 > max)
+              max:= totalR3
+              idMax:= 3
+    Informar('Robot', idMax)        
+  fin
+variables
+  robot1: recolector
+  robot2: recolector
+  robot3: recolector
+  jefe: jefe
+comenzar
+  AsignarArea(robot1, areaR1)
+  AsignarArea(robot2, areaR2)
+  AsignarArea(robot3, areaR3)
+  AsignarArea(jefe, areaJefe)
+  AsignarArea(robot1, areaComun)
+  AsignarArea(robot2, areaComun)
+  AsignarArea(robot3, areaComun)
+  Iniciar(robot1, 10, 10)
+  Iniciar(robot2, 11, 10)
+  Iniciar(robot3, 12, 10)
+  Iniciar(jefe, 1, 1)
+fin
