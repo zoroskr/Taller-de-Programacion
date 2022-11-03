@@ -1,0 +1,163 @@
+programa terceraFechaParcial
+procesos
+  proceso juntarTodo (ES papeles: numero; ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+  proceso juntarPapel (ES papeles: numero)
+  comenzar
+    si (HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot rectangulo
+  variables
+    id, alto, papeles, flores, avActual, caActual: numero
+    inicio: boolean
+  comenzar
+    papeles:= 0
+    flores:= 0
+    RecibirMensaje(id, jefe)
+    Random(alto, 20, 25)
+    repetir 8
+      mover
+    BloquearEsquina(PosAv, PosCa + 1)
+    mover
+    mover
+    LiberarEsquina(PosAv, PosCa - 1)
+    repetir (alto - 10)
+      mover
+    derecha
+    juntarTodo(papeles, flores)
+    repetir 8
+      mover
+    juntarTodo(papeles, flores)
+    derecha
+    repetir (alto - 10)
+      mover
+    BloquearEsquina(PosAv, PosCa - 1)
+    mover
+    mover
+    LiberarEsquina(PosAv, PosCa + 1)
+    repetir 8
+      mover
+    juntarTodo(papeles, flores)
+    derecha
+    repetir 8
+      mover
+    juntarTodo(papeles, flores)
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(papeles, jefe)
+    avActual:= PosAv
+    caActual:= PosCa
+    RecibirMensaje(inicio, jefe)
+    si (inicio = V) 
+      repetir (flores)
+        BloquearEsquina(61, 61)
+        Pos(61,61)
+        depositarFlor
+        Pos(avActual, caActual)
+        LiberarEsquina(61, 61)
+  fin
+  robot jefe
+  variables
+    id, total, max, max2, idMax, idMax2: numero
+    comenza, noComiences: boolean
+  comenzar
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    comenza:= V
+    noComiences:= F
+    max:= -1
+    max2:= -1
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(total, robot1)
+      sino
+        si (id = 2)
+          RecibirMensaje(total, robot2)
+        sino
+          si (id = 3)
+            RecibirMensaje(total, robot3)
+      si (total > max)
+        max:= total
+        idMax:= id
+      sino
+        si (total > max2)
+          max2:= total
+          idMax2:= id         
+    si ((idMax = 1) | (idMax2 = 1))
+      EnviarMensaje(comenza, robot1)
+    sino
+      EnviarMensaje(noComiences, robot1)
+    si ((idMax = 2) | (idMax2 = 2))
+      EnviarMensaje(comenza, robot2)
+    sino
+      EnviarMensaje(noComiences, robot2)
+    si ((idMax = 3) | (idMax2 = 3))
+      EnviarMensaje(comenza, robot3)
+    sino
+      EnviarMensaje(noComiences, robot3) 
+  fin
+  robot callejero
+  variables
+    papeles, cant: numero
+  comenzar
+    papeles:= 0
+    derecha
+    cant:= 3
+    repetir 3
+      repetir (cant)
+        juntarPapel(papeles)
+        mover
+      juntarPapel(papeles)
+      BloquearEsquina(PosAv + 1, PosCa)
+      mover
+      juntarPapel(papeles)
+      mover
+      LiberarEsquina(PosAv - 1, PosCa)
+      juntarPapel(papeles)
+      repetir 6
+        mover
+        juntarPapel(papeles)
+      BloquearEsquina(PosAv + 1, PosCa)
+      mover
+      juntarPapel(papeles)
+      mover
+      LiberarEsquina(PosAv - 1, PosCa)
+      juntarPapel(papeles)
+      cant:= 4
+    repetir 55
+      mover
+      juntarPapel(papeles)
+      
+  fin
+variables 
+  robot1: rectangulo
+  robot2: rectangulo
+  robot3: rectangulo
+  jefe: jefe
+  callejero: callejero
+comenzar
+  AsignarArea(robot1, ciudad)
+  AsignarArea(robot2, ciudad)
+  AsignarArea(robot3, ciudad)
+  AsignarArea(jefe, ciudad)
+  AsignarArea(callejero, ciudad)
+  Iniciar(jefe, 1, 1)
+  Iniciar(callejero, 1, 10)
+  Iniciar(robot1, 5, 1)
+  Iniciar(robot2, 20, 1)
+  Iniciar(robot3, 35, 1)  
+fin

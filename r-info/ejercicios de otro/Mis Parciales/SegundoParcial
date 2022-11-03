@@ -1,0 +1,69 @@
+programa segundoParcial
+procesos
+  proceso juntarFlores (ES flores: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+  proceso juntarPapeles (ES papeles: numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+
+areas
+  areaAzul: AreaPC(2,4,12,24)
+  areaVerde: AreaPC(16,4,26,24)
+  areaJefe: AreaP(1,1,1,1)
+
+robots
+  robot florero
+  variables
+    flores, posibleChoque: numero
+  comenzar
+    derecha
+    flores:= 0
+    posibleChoque:= PosCa + 7
+    repetir 10
+      juntarFlores(flores)
+      mover
+    juntarFlores(flores)
+  fin
+  
+  robot papelero
+  variables
+    papeles: numero
+  comenzar
+    papeles:= 0
+    repetir 20
+      juntarPapeles(papeles)
+      mover
+    juntarPapeles(papeles)
+  fin
+ 
+  robot fiscalizador
+  comenzar
+    derecha
+  fin
+
+variables
+  robot1A: florero {robot florero azul}
+  robot2A: papelero {robot papelero azul}
+  robot3B: florero  {robot florero verde}
+  robot4B: papelero {robot papelero verde}
+  jefe: fiscalizador
+comenzar
+  AsignarArea(robot1A, areaAzul)
+  AsignarArea(robot2A, areaAzul)
+  AsignarArea(robot3B, areaVerde)
+  AsignarArea(robot4B, areaVerde)
+  AsignarArea(jefe, areaJefe)
+  Iniciar(jefe, 1, 1)
+  Iniciar(robot1A, 2, 12)
+  Iniciar(robot2A, 7, 4)
+  Iniciar(robot3B, 16, 12)
+  Iniciar(robot4B, 21, 4)
+fin
+  

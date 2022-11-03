@@ -1,0 +1,91 @@
+programa PrimerParcial
+procesos
+  proceso juntarPapeles
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso depositarPapeles
+  comenzar
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+  fin
+areas
+  area1: AreaP(1,1,7,40)
+  area2: AreaP(8,1,14,40)
+  area3: AreaP(15,1,21,40)
+  areaD: AreaP(1,50,1,50)
+  areaf: AreaP(25,1,25,1)
+robots
+  robot recolector
+  variables
+    recorrido, avInicial, caInicial, id, pasos: numero
+  comenzar
+    recorrido:= 0
+    avInicial:= PosAv
+    caInicial:= PosCa
+    RecibirMensaje(id, jefe)
+    RecibirMensaje(avInicial, jefe)
+    Pos(avInicial, PosCa)
+    repetir 5
+      Random(pasos, 1, 10)
+      recorrido:= recorrido + pasos
+      repetir (pasos)
+        juntarPapeles
+        mover
+    juntarPapeles
+    BloquearEsquina(1, 50)
+    Pos(1, 50)
+    depositarPapeles
+    Pos(avInicial, caInicial)
+    LiberarEsquina(1, 50)
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(recorrido, jefe)
+  fin
+  robot tipoJefe
+  variables
+    avRandom, id, total, max, idMax: numero
+  comenzar
+    max:= -1
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    Random(avRandom, 1, 7)
+    EnviarMensaje(avRandom, robot1)
+    Random(avRandom, 8, 14)
+    EnviarMensaje(avRandom, robot2)
+    Random(avRandom, 15, 21)
+    EnviarMensaje(avRandom, robot3)
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(total, robot1)
+      sino
+        si (id = 2)
+          RecibirMensaje(total, robot2)
+        sino
+          si (id = 3)
+            RecibirMensaje(total, robot3)
+      si (total > max)
+        max:= total
+        idMax:= id
+    Informar('Robot',id)    
+  fin  
+variables
+  robot1: recolector
+  robot2: recolector
+  robot3: recolector
+  jefe: tipoJefe
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+  AsignarArea(robot1,areaD)
+  AsignarArea(robot2,areaD)
+  AsignarArea(robot3,areaD)
+  AsignarArea(jefe,areaf)
+  Iniciar(robot1, 1,1 )
+  Iniciar(robot2, 8,1 )
+  Iniciar(robot3, 15,1 )
+  Iniciar(jefe, 25, 1)
+fin

@@ -1,0 +1,144 @@
+programa SegundoParcial
+procesos
+  proceso juntarFlores (ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+  proceso juntarPapeles (ES papeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+areas
+  primerCuadrado: AreaPC(3,3,13,13)
+  segundoCuadrado: AreaPC(16,3,26,13)
+  inicioJefe: AreaP(14,6,14,6)
+robots
+  robot papelero
+  variables
+    papeles, id, caCorreccion, avCorreccion, lado, posAVLiberar, posCALiberar: numero
+  comenzar
+    papeles:= 0
+    lado:= 1
+    caCorreccion:= 1
+    avCorreccion:= 0
+    RecibirMensaje(id, jefe)
+    repetir 2
+      derecha
+    repetir 4
+      BloquearEsquina(PosAv - avCorreccion, PosCa - caCorreccion)
+      mover
+      posAVLiberar:= PosAv
+      posCALiberar:= PosCa
+      juntarPapeles(papeles)
+      repetir 9
+        BloquearEsquina(PosAv - avCorreccion, PosCa - caCorreccion)
+        mover
+        LiberarEsquina(posAVLiberar, posCALiberar)
+        juntarPapeles(papeles)
+        posAVLiberar:= PosAv
+        posCALiberar:= PosCa
+      derecha
+      lado:= lado + 1
+      si (lado = 2)
+        caCorreccion:= 0
+        avCorreccion:= 1
+      sino
+        si (lado = 3)
+          caCorreccion:= -1
+          avCorreccion:= 0
+        sino
+          si (lado = 4)
+            caCorreccion:= 0
+            avCorreccion:= -1
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(papeles, jefe)
+  fin
+  robot florero
+  variables
+    flores, id, caCorreccion, avCorreccion, lado, posAVLiberar, posCALiberar: numero
+  comenzar
+    flores:= 0
+    lado:= 1
+    caCorreccion:= -1
+    avCorreccion:= 0
+    RecibirMensaje(id, jefe)
+    repetir 4
+      BloquearEsquina(PosAv - avCorreccion, PosCa - caCorreccion)
+      mover
+      posAVLiberar:= PosAv
+      posCALiberar:= PosCa
+      juntarFlores(flores)
+      repetir 9
+        BloquearEsquina(PosAv - avCorreccion, PosCa - caCorreccion)
+        mover
+        LiberarEsquina(posAVLiberar, posCALiberar)
+        juntarFlores(flores)
+        posAVLiberar:= PosAv
+        posCALiberar:= PosCa
+      derecha
+      lado:= lado + 1
+      si (lado = 2)
+        caCorreccion:= 0
+        avCorreccion:= -1
+      sino
+        si (lado = 3)
+          caCorreccion:= 1
+          avCorreccion:= 0
+        sino
+          si (lado = 4)
+            caCorreccion:= 0
+            avCorreccion:= 1
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(flores, jefe)
+  fin
+  robot jefe
+  variables
+    id, aux, total: numero
+  comenzar
+    total:= 0
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    EnviarMensaje(4, robot4)
+    repetir 4
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(aux, robot1)
+      sino
+        si(id = 2)
+          RecibirMensaje(aux, robot2)
+        sino
+          si (id = 3)
+            RecibirMensaje(aux, robot3)
+          sino
+            si (id = 4)
+              RecibirMensaje(aux, robot4)       
+      total:= total + aux
+    si (id = 1)
+      Informar('Gano',2)
+    sino
+      Informar('Gano', 1)  
+    Informar(total)
+  fin
+variables
+  robot1: florero
+  robot2: florero
+  robot3: papelero
+  robot4: papelero
+  jefe: jefe
+comenzar
+  AsignarArea(robot1, primerCuadrado)
+  AsignarArea(robot3, primerCuadrado)
+  AsignarArea(robot2, segundoCuadrado)
+  AsignarArea(robot4, segundoCuadrado)
+  AsignarArea(jefe, inicioJefe)
+  Iniciar(robot1, 3, 3)
+  Iniciar(robot3, 13, 13)
+  Iniciar(robot2, 16, 3)
+  Iniciar(robot4, 26, 13)
+  Iniciar(jefe, 14, 6)
+fin

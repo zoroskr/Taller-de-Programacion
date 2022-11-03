@@ -1,0 +1,106 @@
+programa QuintoParcial
+procesos
+  proceso juntarFlores (ES flores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+  proceso juntarPapeles (ES papeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+  proceso juntarTodo (ES flores: numero; ES papeles: numero)
+  comenzar
+    juntarFlores(flores)
+    juntarPapeles(papeles)
+  fin
+areas
+  areaComun: AreaPC(3, 15, 15, 45)
+  areaR1: AreaP(3, 1, 3, 14)
+  areaR2: AreaP(5, 1, 5, 14)
+  areaR3: AreaP(7, 1, 7, 14)
+  areaJefe: AreaP(1,1,1,1)
+  depositar: AreaPC(35, 50, 35, 50)
+  
+robots
+  robot corredor
+  variables
+    id, total, pasos, flores, papeles, avActual, caActual: numero
+    comenza, seguir: boolean
+  comenzar
+    papeles:= 0
+    flores:= 0
+    seguir:= V
+    RecibirMensaje(id, jefe)
+    mientras(seguir = V)
+      Random(pasos, 1, 5)
+      mientras ((pasos > 0) & (seguir = V))
+        si (PosCa + 1 = 15)
+          seguir:= F
+        mover
+        pasos:= pasos - 1
+      juntarTodo(flores, papeles)
+    EnviarMensaje(id, jefe)
+    avActual:= PosAv
+    caActual:= PosCa
+    total:= flores + papeles
+    RecibirMensaje(comenza, jefe)
+    repetir (total)
+      BloquearEsquina(35, 50)
+      Pos(35, 50)
+      si (papeles > 0)
+        depositarPapel
+        papeles:= papeles - 1
+      si (flores > 0)
+        depositarFlor
+        flores:= flores - 1
+      Pos(avActual, caActual)
+      LiberarEsquina(35, 50)
+    EnviarMensaje(id, jefe)
+  fin
+  robot jefe
+  variables
+    id, id1, id2, id3: numero
+    comenza: boolean
+  comenzar
+    comenza:= V
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    repetir 3
+      RecibirMensaje(id, *)
+    EnviarMensaje(comenza, robot1)
+    EnviarMensaje(comenza, robot2)
+    EnviarMensaje(comenza, robot3)  
+    RecibirMensaje(id1, *)
+    RecibirMensaje(id2, *)
+    RecibirMensaje(id3, *) 
+    Informar(id1)    
+  fin
+variables
+  robot1: corredor
+  robot2: corredor
+  robot3: corredor
+  jefe: jefe
+comenzar
+  AsignarArea(robot1, areaComun)
+  AsignarArea(robot2, areaComun)
+  AsignarArea(robot3, areaComun)
+  AsignarArea(robot1, depositar)
+  AsignarArea(robot2, depositar)
+  AsignarArea(robot3, depositar)
+  AsignarArea(robot1, areaR1)
+  AsignarArea(robot2, areaR2)
+  AsignarArea(robot3, areaR3)
+  AsignarArea(jefe, areaJefe)
+  Iniciar(robot1, 3, 1)
+  Iniciar(robot2, 5, 1)
+  Iniciar(robot3, 7, 1)
+  Iniciar(jefe, 1, 1)
+fin
+  
+
+
