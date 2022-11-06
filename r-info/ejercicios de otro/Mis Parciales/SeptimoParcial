@@ -1,0 +1,89 @@
+programa SeptimoParcial
+procesos 
+  proceso juntarPapeles (ES papeles: numero)
+  comenzar
+    mientras (HayPapelEnLaBolsa)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot corredor
+  variables
+    id, avRandom, caRandom, pasos, pasosTotales, papeles, avIni, caIni: numero
+  comenzar
+    avIni:= PosAv
+    caIni:= PosAv
+    pasosTotales:= 0
+    papeles:= 0
+    RecibirMensaje(id, jefe)
+    RecibirMensaje(avRandom, jefe)
+    RecibirMensaje(caRandom, jefe)
+    repetir 5
+      Random(pasos, 1, 10)
+      pasosTotales:= pasosTotales + pasos
+      si (PosCa + pasos < 40)
+        repetir (pasos)
+          juntarPapeles(papeles)
+          mover
+      juntarPapeles(papeles)
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(pasosTotales, jefe)
+    BloquearEsquina(1, 30)
+    Pos(1, 30)
+    repetir (papeles)
+      depositarPapel
+    Pos(avIni, caIni)
+    LiberarEsquina(1, 30)
+  fin
+  robot jefe
+  variables
+    avRandom, caRandom, idMax, max, total, id: numero
+  comenzar
+    max:= -1
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    Random(avRandom, 1, 7)
+    Random(caRandom, 1, 40)
+    EnviarMensaje(avRandom, robot1)
+    EnviarMensaje(caRandom, robot1)
+    Random(avRandom, 8, 14)
+    Random(caRandom, 1, 40)
+    EnviarMensaje(avRandom, robot2)
+    EnviarMensaje(caRandom, robot2)
+    Random(avRandom, 15, 21)        
+    Random(caRandom, 1, 40)
+    EnviarMensaje(avRandom, robot3)
+    EnviarMensaje(caRandom, robot3)
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(total, robot1)
+      sino
+        si (id = 2)
+          RecibirMensaje(total, robot2)
+        sino
+          si (id = 3)
+            RecibirMensaje(total, robot3)
+      si (total > max)
+        max:= total
+        idMax:= id
+    Informar('Robot', idMax)
+  fin
+variables
+  robot1: corredor
+  robot2: corredor
+  robot3: corredor
+  jefe: jefe
+comenzar
+  AsignarArea(robot1, ciudad)
+  AsignarArea(robot2, ciudad)
+  AsignarArea(robot3, ciudad)
+  AsignarArea(jefe, ciudad)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 8, 1)
+  Iniciar(robot3, 15, 1)
+  Iniciar(jefe, 25, 1)
+fin
