@@ -1,0 +1,83 @@
+programa Extra
+procesos
+  proceso juntarFlor (ES vacias: numero)
+  comenzar
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+    sino
+      si (~(HayPapelEnLaEsquina) & ~(HayFlorEnLaEsquina))
+        vacias:= vacias + 1
+  fin
+  proceso juntarPapel (ES vacias: numero)
+  comenzar
+    si (HayPapelEnLaEsquina)
+      tomarPapel
+    sino
+      si (~(HayPapelEnLaEsquina) & ~(HayFlorEnLaEsquina))
+        vacias:= vacias + 1
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot florero
+  variables
+    vacias, avInicial, caInicial, avRandom, caRandom: numero
+  comenzar
+    vacias:= 0
+    avInicial:= PosAv
+    caInicial:= PosCa
+    repetir 3
+      Random(avRandom, 5, 15)
+      Random(caRandom, 5, 15)
+      BloquearEsquina(avRandom, caRandom)
+      Pos(avRandom, caRandom)
+      juntarFlor(vacias)
+      Pos(avInicial, caInicial)
+      LiberarEsquina(avRandom, caRandom)
+    EnviarMensaje(vacias, jefe)
+  fin
+  robot papelero
+  variables
+    vacias, avInicial, caInicial, avRandom, caRandom: numero
+  comenzar
+    vacias:= 0
+    avInicial:= PosAv
+    caInicial:= PosCa
+    repetir 5
+      Random(avRandom, 5, 15)
+      Random(caRandom, 5, 15)
+      BloquearEsquina(avRandom, caRandom)
+      Pos(avRandom, caRandom)
+      juntarPapel(vacias)
+      Pos(avInicial, caInicial)
+      LiberarEsquina(avRandom, caRandom)
+    EnviarMensaje(vacias, jefe)
+  fin 
+  robot jefe
+  variables
+    cantVacias, cantTotal: numero
+  comenzar
+    cantTotal:= 0
+    repetir 4
+      RecibirMensaje(cantVacias, *)
+      cantTotal:= cantTotal + cantVacias
+    Informar(cantTotal)
+  fin
+variables
+  robot1: florero
+  robot2: florero
+  robot3: papelero
+  robot4: papelero
+  jefe: jefe
+comenzar
+  AsignarArea(robot1, ciudad)
+  AsignarArea(robot2, ciudad)
+  AsignarArea(robot3, ciudad)
+  AsignarArea(robot4, ciudad)
+  AsignarArea(jefe, ciudad)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 2,1)
+  Iniciar(robot3, 3, 1)
+  Iniciar(robot4, 4, 1)
+  Iniciar(jefe, 5, 1)
+fin
