@@ -12,6 +12,57 @@ procesos
       tomarPapel
       papeles:= papeles + 1
   fin
+  proceso lado1
+  variables
+    posB, posL: numero
+  comenzar
+    repetir 10
+      posB:= PosCa + 1
+      BloquearEsquina(PosAv, posB)
+      mover
+      posL:= PosCa - 1
+      LiberarEsquina(PosAv, posL)
+  fin
+  proceso lado2
+  variables
+    posB, posL: numero
+  comenzar
+    derecha
+    repetir 10
+      posB:= PosAv + 1
+      BloquearEsquina(posB, PosCa)
+      mover
+      posL:= PosAv - 1
+      LiberarEsquina(posL, PosCa)
+  fin
+  proceso lado3
+  variables
+    posB, posL: numero
+  comenzar
+    derecha
+    repetir 10
+      posB:= PosCa - 1
+      BloquearEsquina(PosAv, posB)
+      mover
+      posL:= PosCa + 1
+      LiberarEsquina(PosAv, posL)
+  fin
+  proceso lado4
+  variables
+    posB, posL: numero
+  comenzar
+    derecha
+    repetir 10
+      posB:= PosAv - 1
+      BloquearEsquina(posB, PosCa)
+      mover
+      posL:= PosAv + 1
+      LiberarEsquina(posL, PosCa)
+  fin
+
+  
+
+  
 areas
   primerCuadrado: AreaPC(3,3,13,13)
   segundoCuadrado: AreaPC(16,3,26,13)
@@ -26,34 +77,17 @@ robots
     caCorreccion:= 1
     avCorreccion:= 0
     RecibirMensaje(id, jefe)
-    repetir 2
-      derecha
-    repetir 4
-      BloquearEsquina(PosAv - avCorreccion, PosCa - caCorreccion)
-      mover
-      posAVLiberar:= PosAv
-      posCALiberar:= PosCa
-      juntarPapeles(papeles)
-      repetir 9
-        BloquearEsquina(PosAv - avCorreccion, PosCa - caCorreccion)
-        mover
-        LiberarEsquina(posAVLiberar, posCALiberar)
-        juntarPapeles(papeles)
-        posAVLiberar:= PosAv
-        posCALiberar:= PosCa
-      derecha
-      lado:= lado + 1
-      si (lado = 2)
-        caCorreccion:= 0
-        avCorreccion:= 1
-      sino
-        si (lado = 3)
-          caCorreccion:= -1
-          avCorreccion:= 0
-        sino
-          si (lado = 4)
-            caCorreccion:= 0
-            avCorreccion:= -1
+    BloquearEsquina(PosAv, PosCa)
+    derecha
+    lado3
+    juntarPapeles(papeles)
+    lado4
+    juntarPapeles(papeles)
+    derecha
+    lado1
+    juntarPapeles(papeles)
+    lado2
+    juntarPapeles(papeles)
     EnviarMensaje(id, jefe)
     EnviarMensaje(papeles, jefe)
   fin
@@ -63,35 +97,16 @@ robots
   comenzar
     flores:= 0
     lado:= 1
-    caCorreccion:= -1
-    avCorreccion:= 0
     RecibirMensaje(id, jefe)
-    repetir 4
-      BloquearEsquina(PosAv - avCorreccion, PosCa - caCorreccion)
-      mover
-      posAVLiberar:= PosAv
-      posCALiberar:= PosCa
-      juntarFlores(flores)
-      repetir 9
-        BloquearEsquina(PosAv - avCorreccion, PosCa - caCorreccion)
-        mover
-        LiberarEsquina(posAVLiberar, posCALiberar)
-        juntarFlores(flores)
-        posAVLiberar:= PosAv
-        posCALiberar:= PosCa
-      derecha
-      lado:= lado + 1
-      si (lado = 2)
-        caCorreccion:= 0
-        avCorreccion:= -1
-      sino
-        si (lado = 3)
-          caCorreccion:= 1
-          avCorreccion:= 0
-        sino
-          si (lado = 4)
-            caCorreccion:= 0
-            avCorreccion:= 1
+    BloquearEsquina(PosAv, PosCa)
+    lado1
+    juntarFlores(flores)
+    lado2
+    juntarFlores(flores)
+    lado3
+    juntarFlores(flores)
+    lado4
+    juntarFlores(flores)
     EnviarMensaje(id, jefe)
     EnviarMensaje(flores, jefe)
   fin
@@ -142,3 +157,5 @@ comenzar
   Iniciar(robot4, 26, 13)
   Iniciar(jefe, 14, 6)
 fin
+
+
