@@ -1,0 +1,55 @@
+programa CatorceavoParcial
+procesos
+  proceso juntarPapeles (ES papeles: numero; ES maximo: boolean)
+  comenzar
+    mientras ((HayPapelEnLaEsquina) & (maximo = F))
+      tomarPapel
+      papeles:= papeles + 1
+      si (papeles = 5)
+        maximo:= V
+        
+  fin
+robots
+  robot productor
+  comenzar
+    repetir 99
+      mientras (HayPapelEnLaEsquina)
+        juntarPapeles(papeles, maximo)
+        si (maximo = V)
+          avActual:= PosAv
+          caActual:= PosCa
+          BloquearEsquina(50, 50)
+          Pos(50, 50)
+          repetir 5
+            depositarPapel
+          Pos(avActual, caActual, maximo)
+          LiberarEsquina(50, 50)
+          maximo:= F
+          papeles:= 0
+      mover
+  fin
+  robot consumidores
+  comenzar
+    avOrigen:= PosAv
+    caOrigen:= PosCa
+    Random(cant, 2, 5)
+    BloquearEsquina(50, 50)
+    Pos(50, 50)
+    mientras ((papeles < cant) & (requerido = V))
+      si (HayPapelEnLaEsquina)
+        tomarPapel
+        papeles:= papeles + 1
+      sino 
+        noCumplio:= noCumplio + 1
+        repetir (papeles)
+          depositarPapel
+        requerido:= F
+    si (papeles = cant)
+      Pos(avOrigen, caOrigen)
+      repetir (papeles)
+        depositarPapel
+    sino   
+      Pos(avOrigen, caOrigen)      
+    
+      
+  fin

@@ -1,0 +1,61 @@
+programa P4E3
+procesos
+  proceso juntarPapeles(ES papeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:= papeles + 1
+  fin
+areas
+  ciudad: AreaC(1,1,100,100)
+robots
+  robot vaciador
+  variables
+    id, papeles, seguir1, seguir2, seguir3, seguir4, seguir5, seguir6: numero
+  comenzar
+    papeles:= 0
+    RecibirMensaje(id, jefe)
+    repetir 19
+      repetir 5
+        juntarPapeles(papeles)
+        mover
+      juntarPapeles(papeles)
+      si (id = 1)
+        EnviarMensaje(1, robot2)
+        EnviarMensaje(1, robot3)
+        RecibirMensaje(seguir1, robot2)
+        RecibirMensaje(seguir2, robot3)
+      sino
+        si (id = 2)
+          EnviarMensaje(2, robot1)
+          EnviarMensaje(2, robot3)
+          RecibirMensaje(seguir3, robot1)
+          RecibirMensaje(seguir4, robot3)
+        sino
+          si (id = 3)
+            EnviarMensaje(3, robot1)
+            EnviarMensaje(3, robot2)
+            RecibirMensaje(seguir5, robot1)
+            RecibirMensaje(seguir6, robot2)
+  fin
+  robot coordinador
+  comenzar
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+  fin
+variables
+  robot1: vaciador
+  robot2: vaciador
+  robot3: vaciador
+  jefe: coordinador
+comenzar
+  AsignarArea(robot1, ciudad)
+  AsignarArea(robot2, ciudad)
+  AsignarArea(robot3, ciudad)
+  AsignarArea(jefe, ciudad)
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 2, 1)
+  Iniciar(robot3, 3, 1)
+  Iniciar(jefe, 100, 100)
+fin

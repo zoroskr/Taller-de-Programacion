@@ -1,0 +1,64 @@
+programa P4E1
+proceso
+  proceso juntarFlores (ES cantFlores: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores:= cantFlores + 1
+  fin
+robots
+  robot cliente
+  comenzar
+    Random(flores, 1, 4)
+    RecibirMensaje(id, servidor)
+    EnviarMensaje(id, servidor)
+    EnviarMensaje(flores, servidor)
+    EnviarMensaje(PosAv, servidor)
+    EnviarMensaje(PosCa + 1, servidor)
+    RecibirMensaje(comeza, servidor)
+    Pos(PosAv, PosCa + 1)
+    juntarFlores(cantFlores)
+    Pos(PosAv, PosCa - 1)
+    repetir (cantFlores)
+      depositarFlor
+      mover
+      
+  fin
+  robot servidor
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(flores, robot1)
+        RecibirMensaje(avenida, robot2)
+        RecibirMensaje(calle, robot2)
+        Pos(avenida, calle)
+        repetir (flores)
+          depositarFlor
+        Pos(100, 100)
+        EnviarMensaje(comenza, robot1)
+      sino
+        si (id = 2)
+          RecibirMensaje(flores, robot2)
+          RecibirMensaje(avenida, robot2)
+          RecibirMensaje(calle, robot2)
+          Pos(avenida, calle)
+          repetir (flores)
+            depositarFlor
+          Pos(100, 100)
+          EnviarMensaje(comenza, robot2)
+        sino
+          si (id = 3)
+            RecibirMensaje(flores, robot3)
+            RecibirMensaje(avenida, robot2)
+            RecibirMensaje(calle, robot2)
+            Pos(avenida, calle)
+            repetir (flores)
+             depositarFlor
+            Pos(100, 100)
+            EnviarMensaje(comenza, robot3)
+  
+          
+            
